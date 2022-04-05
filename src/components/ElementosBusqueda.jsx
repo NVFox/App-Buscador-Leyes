@@ -1,10 +1,10 @@
 import React from 'react'
-import bootstrap from 'bootstrap'
 import ElementoBusqueda from './ElementoBusqueda';
+import { useFetch } from '../hooks/fetchHook';
 
-const ElementosBusqueda = ({fetchedData, inputElements}) => {
+const ElementosBusqueda = ({inputElements}) => {
 
-    const [data, loading] = fetchedData;
+    const [data, loading] = useFetch("http://localhost:4000/articulos");
 
     const compareWords = ([storedArr, index], inputArr) => {
         const filteredArr = [...new Set([...storedArr, ...inputArr])];
@@ -31,9 +31,9 @@ const ElementosBusqueda = ({fetchedData, inputElements}) => {
                         className="form-select focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
                         aria-label="Default select example"
                     >
-                        {sortedElements.slice(0, 4).map(item => {
-                            <ElementoBusqueda key={data[item].artId} elemento={data[item]} />
-                        })}
+                        {sortedElements.slice(0, 4).map(item => (
+                            <ElementoBusqueda key={data[item.index].artId} elemento={data[item.index]} />
+                        ))}
                     </select>
                 </div>
             }

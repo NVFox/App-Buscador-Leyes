@@ -1,26 +1,79 @@
-import React, { useState, useEffect } from "react";
-import { useFetch } from "../hooks/fetchHook"
-import ElementosBusqueda from "./ElementosBusqueda";
+import React, { useState } from "react";
+import { useFetch } from "../hooks/fetchHook";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function InputBusqueda() {
+  const [open, setOpen] = React.useState(false);
+  const [options, setOptions] = React.useState([]);
+  const loading = open && options.length === 0;
 
-    const [data, loading] = useFetch("");
+  React.useEffect(() => {
+    let active = true;
 
-    return (
-      <div>
-        <div className="mt-1 relative rounded-md shadow-sm">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <span className="text-gray-500 sm:text-sm">Claves</span>
-          </div>
-          <input
-            type="text"
-            name="price"
-            id="price"
-            className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md"
-            placeholder="Introduzca palabras claves"
-            onChange={e => <ElementosBusqueda fetchedData={[data, loading]} inputElements={e.target.value.split(", ")} />}
-          />
-        </div>
-      </div>
-    )
-  }
+    if (!loading) {
+      return undefined;
+    }
+
+    (async () => {
+      const response = await fetch("http://localhost:4000/articulos");
+      const json = await response.json();
+
+      if (active) {
+        setOptions([...json]);
+      }
+    })();
+
+    return () => {
+      active = false;
+    };
+  }, [loading]);
+
+  React.useEffect(() => {
+    if (!open) {
+      setOptions([]);
+    }
+  }, [open]);
+
+  return (
+    <Autocomplete
+      multiple
+      id="asynchronous-demo"
+      sx={{ width: "50%" }}
+      open={open}
+      onOpen={() => {
+        setOpen(true);
+      }}
+      onClose={() => {
+        setOpen(false);
+      }}
+      isOptionEqualToValue={(option, value) => option.artId === value.artId}
+      getOptionLabel={(option) => option.artPalabrasClave}
+      options={options}
+      loading={loading}
+      renderOption={(props, option) => (
+        <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+          {option.artNombre} ({option.leyNombre}) ({option.artPalabrasClave})
+        </Box>
+      )}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label="Palabras Clave"
+          sx={{ background: "rgba(238, 238, 238, 0.8)" }}
+          InputProps={{
+            ...params.InputProps,
+            endAdornment: (
+              <React.Fragment>
+                {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                {params.InputProps.endAdornment}
+              </React.Fragment>
+            ),
+          }}
+        />
+      )}
+    />
+  );
+}
