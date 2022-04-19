@@ -1,28 +1,41 @@
-import React from 'react'
-import Navbar from './Navbar'
+import React, { useState } from 'react'
+import Navbar from '../Navbar'
 import InputBusqueda from './InputBusqueda'
 import styled from 'styled-components'
-import fondo from '../fondo.jpg';
+import fondo from '../../../fondo.jpg';
+import BotonBuscar from './BotonBuscar';
 
 const StyledSection = styled.section`
     height: 100%;
     background: url(${props => props.image});
-    opacity: 0.5;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     `;
 
+const StyledDiv = styled.div`
+    height: 100%;
+    width: 100%;
+    background: rgba(189, 236, 182, 0.75);
+    display: flex;
+    flex-direction: column;
+    gap: 20px 0;
+    justify-content: center;
+    align-items: center;
+`
+
 const Inicio = () => {
+
+    const [values, setValues] = useState([]);
+
     return (
-        <main style={{height: "100vh"}}>
+        <main style={{height: "100vh", "background": "white"}}>
             <Navbar isInicio={true} />
             <StyledSection image={fondo}>
-                <InputBusqueda />
+                <StyledDiv>
+                    <InputBusqueda setValues={setValues} />
+                    <BotonBuscar values={values} />
+                </StyledDiv>
             </StyledSection>
         </main>
     )
