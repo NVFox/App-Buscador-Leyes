@@ -7,14 +7,14 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 export default function InputBusqueda({ setValues }) {
   
-  const [open, setOpen, options, loading] = useFetch("http://localhost:4000/articulos");
+  const [open, setOpen, options, loading] = useFetch(`${process.env.REACT_APP_REQUEST_DOMAIN}/articulos`);
   const [filteredOptions, setFilteredOptions] = useState([]);
 
   useEffect(() => {
-    const filterOptions = (options) => {
+    const filterOptions = (opts) => {
       let newArr = [];
   
-      for (const item of options) {
+      for (const item of opts) {
         const palabrasArr = item.artPalabrasClave.split(", ");
         for (const newItem of palabrasArr) {
           newArr = [...newArr, newItem];
@@ -39,7 +39,7 @@ export default function InputBusqueda({ setValues }) {
       onClose={() => {
         setOpen(false);
       }}
-      onChange={(e, newVal) => {
+      onChange={(_e, newVal) => {
         setValues(newVal)
       }}
       getOptionLabel={(option) => option}

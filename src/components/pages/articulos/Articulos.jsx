@@ -8,9 +8,9 @@ import Articulo from './Articulo';
 import { useParams } from 'react-router-dom';
 
 const StyledSection = styled.section`
-    min-height: 100vh;
     background: rgba(255, 128, 0, 0.8);
-    padding-top: calc(225px - 10vw);
+    padding: 50px 0;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -25,14 +25,14 @@ const StyledDiv = styled.div`
     gap: 20px 0;
     justify-content: center;
     align-items: center;
-    padding: 15px 0;
+    padding: 25px 0;
     border-radius: 5px;
     box-shadow: 1px 3px 5px black;
     `
 
 const Articulos = () => {
     const { leyId } = useParams();
-    const [options] = useFetch(`http://localhost:4000/ley/${leyId}`);
+    const [options] = useFetch(`${process.env.REACT_APP_REQUEST_DOMAIN}/ley/${leyId}`);
 
     return (
         <main style={{"background": "white"}}>
@@ -45,7 +45,7 @@ const Articulos = () => {
                             <Fragment key={i}>
                                 <Capitulo key={Object.values(item)[0][0].titId} capitulo={Object.values(item)[0][0]} />
                                 {Object.values(item).map(newItem => (
-                                    <Articulo key={`${newItem[0].artId}`} articulo={newItem[0]} parrafos={newItem.parId ? newItem : []} />
+                                    <Articulo key={`${newItem[0].artId}`} articulo={newItem[0]} parrafos={newItem[0].parId ? newItem : []} />
                                 ))}
                             </Fragment>
                         ))}

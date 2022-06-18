@@ -15,7 +15,7 @@ const Articulo = ({ articulo, parrafos }) => {
         <StyledArticle id={`art${articulo.artId}`}>
             <h4><b>{articulo.artNombre}</b>{articulo.artDescripcion ? ` - ${articulo.artDescripcion}` : ""}</h4>
             {parrafos.map(item => (
-                <p key={item.artId}>{item.parNombre}. {item.parTexto}</p>
+                <p key={item.parId}>{item.parNombre} {item.parTexto}</p>
             ))}
         </StyledArticle>
     )

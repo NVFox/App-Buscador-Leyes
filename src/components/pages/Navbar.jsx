@@ -5,7 +5,7 @@ import styled from "styled-components";
 const StyledHeader = styled.header`
         padding: 15px;
         display: flex;
-        position: fixed;
+        position: ${props => props.isInicio ? 'fixed' : 'inherit'};
         background: rgb(238, 238, 238);
         width: 100%;
         top: 0;
@@ -16,7 +16,7 @@ const StyledHeader = styled.header`
 
 const Navbar = ({ isInicio }) => {
     return (
-    <StyledHeader>
+    <StyledHeader isInicio={isInicio}>
         <Link to={isInicio ? "#": "/"}>
             <h1 style={{color: "black", "fontSize": "50px", "marginLeft": "25px", "fontWeight": "bold"}}>Buscador de Leyes</h1>
         </Link>

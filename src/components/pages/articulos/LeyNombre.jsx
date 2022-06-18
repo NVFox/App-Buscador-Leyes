@@ -16,7 +16,7 @@ const LeyNombre = ({ ley }) => {
     return (
         <StyledArticle>
             <h2>
-                LEY {`${ley.leyId}`.slice(0, 2)} DE {`${ley.leyId}`.slice(2)} 
+                LEY {`${ley.leyId}`.slice(0, -4)} DE {`${ley.leyId}`.slice(-4)} 
                 <br></br>sobre {`${ley.leyNombre}`.replace("Ley de ", "").toLowerCase()}
             </h2>
         </StyledArticle>

@@ -19,7 +19,7 @@ const StyledSection = styled.section`
 const Resultados = () => {
 
     const { inputArr } = useParams();
-    const [data] = useFetch("http://localhost:4000/articulos", JSON.parse(inputArr));
+    const [data] = useFetch(`${process.env.REACT_APP_REQUEST_DOMAIN}/articulos`, JSON.parse(inputArr));
 
     return (
         <main style={{"background": "white"}}>

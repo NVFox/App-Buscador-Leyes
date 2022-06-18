@@ -4,7 +4,7 @@ import { useFetch } from '../hooks/fetchHook';
 
 const ElementosBusqueda = ({inputElements}) => {
 
-    const [data, loading] = useFetch("http://localhost:4000/articulos");
+    const [data, loading] = useFetch(`${process.env.REACT_APP_REQUEST_DOMAIN}/articulos`);
 
     const compareWords = ([storedArr, index], inputArr) => {
         const filteredArr = [...new Set([...storedArr, ...inputArr])];
